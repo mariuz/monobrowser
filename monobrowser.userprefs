@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="monobrowser/Main.cs" ctype="Workbench">
+    <Files>
+      <File FileName="monobrowser/Main.cs" Line="122" Column="6" />
+      <File FileName="monobrowser/MainWindow.cs" Line="1" Column="1" />
+      <File FileName="../../../tmp/xa-gUv6XV/Menu.cs" Line="1" Column="1" />
+      <File FileName="Assembly Browser" />
+      <File FileName="../../../tmp/xa-hrDoDY/FunnyBrowser.cs" Line="30" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
+</Properties>
