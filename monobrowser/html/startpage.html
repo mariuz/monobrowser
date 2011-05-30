@@ -11,24 +11,13 @@
         {
             var searchEngine = 'http://google.com'
 
-            document.title ='Welcome to Arora!';
-            document.getElementById('headerTitle').innerHTML = 'Arora Start';
+            document.title ='Welcome to Cool Mono Browser';
+            document.getElementById('headerTitle').innerHTML = 'Cool Browser Start';
             document.getElementById('searchButton').value = 'Search!';
             document.getElementById('footer').innerHTML = 'Search results provided by' + ' '
-                                                          + searchEngine.name + ' | ' + '<a href="http://arora-browser.org/">'
-                                                          + 'About Arora'+ '</a>';
-            document.getElementById('lineEdit').placeholder = searchEngine.name;
-
-            // Try to change the direction of the page:
-            //   This string is defined in QApplication
-            //   src/gui/kernel/qapplication.cpp#qt_detectRTLLanguage()
-            //   it should contain LTR or RTL
-
-            var newDir = window.arora.translate('QT_LAYOUT_DIRECTION');
-            newDir = newDir.toLowerCase();
-            if ((newDir != 'ltr') && (newDir != 'rtl'))
-                newDir = 'ltr';
-            document.getElementsByTagName('body')[0].setAttribute('dir', newDir);
+                                                          + 'Google' + ' | ' + '<a href="http://arora-browser.org/">'
+                                                          + 'About Cool Browser'+ '</a>';
+           document.getElementById('lineEdit').placeholder = 'Google';
         }
 
         function formSubmitted()

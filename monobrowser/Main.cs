@@ -2,6 +2,8 @@ using System;
 using Gtk;
 using GtkSharp;
 using WebKit;
+//using Mono.Unix.Native;
+using System.Reflection;
 
 namespace monobrowser {
     class coolbrowser 
@@ -30,7 +32,9 @@ namespace monobrowser {
 		private Gtk.Entry uri_entry = null;
 		private Gtk.Entry find_entry = null;
 		private WebKit.WebView webview = null;
+		private WebKit.WebView anotherWebView = null;
 		private Gtk.Statusbar statusbar = null;
+		private Notebook nb = null;
 		
 		private Gtk.Action action_back;
 		private Gtk.Action action_forward;
@@ -60,8 +64,13 @@ namespace monobrowser {
 			CreateFindbar ();
 			CreateStatusBar ();
 					
+			Notebook nb = new Notebook ();
 			Gtk.ScrolledWindow scroll = new Gtk.ScrolledWindow ();
-			scroll.Add (webview);
+			scroll.Add (nb);
+			//string label =url;
+			//nb.AppendPage (new Button (label), new Label (label));
+			nb.Add(webview);
+			
 
 			vbox = new Gtk.VBox (false, 1);
 			vbox.PackStart (menubar, false, false, 0);
@@ -118,11 +127,43 @@ namespace monobrowser {
 	   
 		 
 	
-	      // File | Exit menu Item.
-	      menuItem = new ImageMenuItem(Stock.Quit, aGroup);
+	      // File | New Window | New Tab | Open File | Open Location| Close Tab | Save As | Print | Exit menu Item.
+	      	
+		  MenuItem newWindowItem = new MenuItem("New window");
+		  newWindowItem.Activated += new EventHandler(NewWindow_Activated);
+		  fileMenu.Append(newWindowItem);
+		  MenuItem newTabItem = new MenuItem("New Tab");
+		  newTabItem.Activated += new EventHandler(NewTab_Activated);
+		  fileMenu.Append(newTabItem);
 		  
-	      menuItem.Activated += new EventHandler(FileQuit_Activated);
+		  MenuItem openFileItem = new MenuItem("Open File");
+		  openFileItem.Activated += new EventHandler(NewTab_Activated);
+		  fileMenu.Append(openFileItem);
+			
+		  MenuItem openlocationItem = new MenuItem("Open Location");
+		  openlocationItem.Activated += new EventHandler(NewTab_Activated);
+		  fileMenu.Append(openlocationItem);
+			
+		  MenuItem closeTabItem = new MenuItem("Close Tab");
+		  closeTabItem.Activated += new EventHandler(NewTab_Activated);
+		  fileMenu.Append(closeTabItem);
+			
+		  MenuItem saveAsItem = new ImageMenuItem(Stock.SaveAs, aGroup);
+		  saveAsItem.Activated += new EventHandler(NewTab_Activated);
+		  fileMenu.Append(saveAsItem);
+			
+		  MenuItem printItem = new ImageMenuItem(Stock.Print, aGroup);
+		  printItem.Activated += new EventHandler(NewTab_Activated);
+		  fileMenu.Append(printItem);
+			
+		
+		  
+		
+		  menuItem = new ImageMenuItem(Stock.Quit, aGroup);
+		  menuItem.Activated += new EventHandler(FileQuit_Activated);
 		  fileMenu.Append(menuItem);
+		
+		  
 		  // Build Edit -> Undo Redo | Cut Copy Paste Select All menu Item.
 		  MenuItem undoItem = new ImageMenuItem(Stock.Undo, aGroup);
 		  editMenu.Append(undoItem);
@@ -140,12 +181,15 @@ namespace monobrowser {
 		  MenuItem findItem = new ImageMenuItem(Stock.Find, aGroup);
 		  editMenu.Append(findItem);
 		
-		  //Help | About
+		  //Help | Help | About
 		  MenuItem aboutItem = new ImageMenuItem(Stock.About, aGroup);
-		  menuItem.Activated += new EventHandler(HelpAbout_Activated);
-		  editMenu.Append(aboutItem);	
+		  aboutItem.Activated += new EventHandler(HelpAbout_Activated);
+		  helpMenu.Append(aboutItem);	
 			
-		  
+		  MenuItem helphelpItem = new ImageMenuItem(Stock.Help, aGroup);
+		  helphelpItem.Activated += new EventHandler(HelpHelp_Activated);
+		  helpMenu.Append(helphelpItem);	
+		
 	      
 				
 			
@@ -295,9 +339,58 @@ namespace monobrowser {
 		
 		void HelpAbout_Activated(object sender, EventArgs args)
   		{         
-    		Application.Quit();
+    		
+		AboutDialog dialog = new AboutDialog ();
+		Assembly asm = Assembly.GetExecutingAssembly ();
+		
+		dialog.Name = (asm.GetCustomAttributes (
+			typeof (AssemblyTitleAttribute), false) [0]
+			as AssemblyTitleAttribute).Title;
+		
+		dialog.Version = asm.GetName ().Version.ToString ();
+		
+		dialog.Comments = (asm.GetCustomAttributes (
+			typeof (AssemblyDescriptionAttribute), false) [0]
+			as AssemblyDescriptionAttribute).Description;
+		
+		dialog.Copyright = (asm.GetCustomAttributes (
+			typeof (AssemblyCopyrightAttribute), false) [0]
+			as AssemblyCopyrightAttribute).Copyright;
+		
+		dialog.License = license;
+		
+		dialog.Authors = authors;
+		
+		dialog.Run ();
   		}
 		
+		void HelpHelp_Activated(object sender, EventArgs args)
+  		{         
+    		Application.Quit();
+  		}
+    	void NewWindow_Activated(object sender, EventArgs args)
+  		{         
+    		
+			MainWindow anotherWindow = new MainWindow (url);
+			anotherWindow.Show ();
+			
+  		}
 		
+		void NewTab_Activated(object sender, EventArgs args)
+  		{         
+    		
+			anotherWebView = new WebView();
+			anotherWebView.Open(this.url);
+			nb.AppendPage(anotherWebView,new Label (this.url));
+			
+  		}
+		
+		private static string [] authors = new string [] {
+		"Brian Nickel <name@domain.ext>",
+		"Rupert T. Monkey <name@domain.ext>"
+	};
+	
+	private static string license ="Artistic License 2.0";
 	}
+	
 }
