@@ -21,7 +21,7 @@ namespace monobrowser {
 	{
 		const string APP_NAME = "CoolMonoBrowser";
 
-		private string url = "http://firebirdsql.org";
+		private string url = "file:///home/mariuz/work/monobrowser/monobrowser/html/startpage.html";
 		
 		private Gtk.VBox vbox = null;
 		private Gtk.MenuBar menubar = null;
@@ -101,16 +101,20 @@ namespace monobrowser {
 	      Menu fileMenu = new Menu();
 		  Menu editMenu = new Menu();
 		  Menu viewMenu = new Menu();
+	      Menu helpMenu = new Menu();
 	      MenuItem menuItem = new MenuItem("_File");
 		  MenuItem editItem = new MenuItem("_Edit");
-		  MenuItem viewItem = new MenuItem("_View");	
+		  MenuItem viewItem = new MenuItem("_View");
+		  MenuItem helpItem = new MenuItem("_Help");	
 	      menuItem.Submenu = fileMenu;
 		  editItem.Submenu = editMenu;
 		  viewItem.Submenu = viewMenu;
+		  helpItem.Submenu = helpMenu;
 		  
 	      menubar.Append(menuItem);
 		  menubar.Append(editItem);
 		  menubar.Append(viewItem);
+		  menubar.Append(helpItem);
 	   
 		 
 	
@@ -135,8 +139,11 @@ namespace monobrowser {
 		  editMenu.Append(selectAllItem);
 		  MenuItem findItem = new ImageMenuItem(Stock.Find, aGroup);
 		  editMenu.Append(findItem);
-		  
-			
+		
+		  //Help | About
+		  MenuItem aboutItem = new ImageMenuItem(Stock.About, aGroup);
+		  menuItem.Activated += new EventHandler(HelpAbout_Activated);
+		  editMenu.Append(aboutItem);	
 			
 		  
 	      
@@ -285,5 +292,12 @@ namespace monobrowser {
   		{         
     		Application.Quit();
   		}
+		
+		void HelpAbout_Activated(object sender, EventArgs args)
+  		{         
+    		Application.Quit();
+  		}
+		
+		
 	}
 }
